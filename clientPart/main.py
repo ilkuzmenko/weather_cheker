@@ -142,15 +142,7 @@ for item in progressBar[7:10]:
     time.sleep(0.05) 
 bar.finish()
 os.system('clear')
-############################################################################################
-#import matplotlib.pyplot as plt
 
-
-#plt.bar(TimeList[:2],PressureList[:2], label = 'Temperature', color = 'Green')
-#plt.xlabel('Time')
-#plt.ylabel('°C')
-#plt.legend()
-#plt.show()
 
 ############################################################################################
 
@@ -191,48 +183,91 @@ while lenThreeHoursPressure > 8 :
 
 
 
-print()
-print(Fore.YELLOW + "За даними ресурсу openweathermap.org:")
-print("В місті Бориспіль зараз " + w.get_detailed_status())
-print("Температура – " + str(temp) + "C°")
-print("Вологість – " + str(humi) + "%")
-print("Тиск – " + str(press) + "hPa" + Style.RESET_ALL)
-print()
-print(Fore.GREEN + "За даними зібраними за допомогою датчика BME280:")
-print("В місті Бориспіль зараз " + w.get_detailed_status())
-print("Температура – " + str(TemperatureList[0]) + "C°")
-print("Вологість – " + str(HumidityList[0]) + "%")
-print("Тиск – " + str(PressureList[0]) + "hPa" + Style.RESET_ALL)
-print()
+print("Open @WeatherCheker_bot in Telegram")
+#print(Fore.YELLOW + "За даними ресурсу openweathermap.org:")
+#print("В місті Бориспіль зараз " + w.get_detailed_status())
+#print("Температура – " + str(temp) + "C°")
+#print("Вологість – " + str(humi) + "%")
+#print("Тиск – " + str(press) + "hPa" + Style.RESET_ALL)
+#print()
+#print(Fore.GREEN + "За даними зібраними за допомогою датчика BME280:")
+#print("В місті Бориспіль зараз " + w.get_detailed_status())
+#print("Температура – " + str(TemperatureList[0]) + "C°")
+#print("Вологість – " + str(HumidityList[0]) + "%")
+#print("Тиск – " + str(PressureList[0]) + "hPa" + Style.RESET_ALL)
+#print()
 now = threeHoursPressure[0]
 threeHoursAgo = threeHoursPressure[1]
 difference = now - threeHoursAgo
 
-if difference < 1.1 and difference > -1.1 :
-	print("Різких змін погодних умов не прогнозується.")
-elif difference >= 1.1 and difference <= 2.7 :
-	print("Погода погіршується, вірогідність опадів мінімальна.")
-elif difference > 2.7 and difference <= 6:
-	print("Попередження про сильний вітер.")
-elif difference > 6 :
-	print("Попередження про бурю.")
-elif difference <= -1.1 and difference >= -2.7 :
-	print("Погода погіршується, вітряно, є вірогідність опадів.")
-elif difference < -2.7 and difference >= -4 :
-	print("Вірогідно буде дощ та вітряно.")
-elif difference < -4 and difference >= -7 :
-	print("Вірогідно буде шторм, попередження про сильний вітер.")
-elif difference < -7 and difference >= -10 :
-	print("Вірогідно буде гроза. ")
-elif difference < -10 :
-	print("Шторм, буря.")
-else:
-	print("error")
+#if difference < 1.1 and difference > -1.1 :
+#	print("Різких змін погодних умов не прогнозується.")
+#elif difference >= 1.1 and difference <= 2.7 :
+#	print("Погода погіршується, вірогідність опадів мінімальна.")
+#elif difference > 2.7 and difference <= 6:
+#	print("Попередження про сильний вітер.")
+#elif difference > 6 :
+#	print("Попередження про бурю.")
+#elif difference <= -1.1 and difference >= -2.7 :
+#	print("Погода погіршується, вітряно, є вірогідність опадів.")
+#elif difference < -2.7 and difference >= -4 :
+#	print("Вірогідно буде дощ та вітряно.")
+#elif difference < -4 and difference >= -7 :
+#	print("Вірогідно буде шторм, попередження про сильний вітер.")
+#elif difference < -7 and difference >= -10 :
+#	print("Вірогідно буде гроза. ")
+#elif difference < -10 :
+#	print("Шторм, буря.")
+#else:
+#	print("error")
  
 #print("Попередні показники тиску: " + str(threeHoursAgo) + "hPa")
 #print("Теперішні показники тиску: " + str(now) + "hPa")
-print("Різниця між показниками тиску за останні 3 години складає: " + str("%.2f" % difference) + "hPa")
-print()
+#print("Різниця між показниками тиску за останні 3 години складає: " + str("%.2f" % difference) + "hPa")
+#print()
+
+#############################################################################################
 
 
+import telebot
 
+bot = telebot.TeleBot('1099145455:AAHY8mgvAMhjG31hM8xvPoz1oLDIEreh9oQ')
+
+
+@bot.message_handler(content_types = ['text'])
+def send_echo(message):
+    answer = "За даними ресурсу openweathermap.org:" + "\n"
+    answer += "В місті Бориспіль зараз " + w.get_detailed_status() + "\n"
+    answer += "Температура – " + str(temp) + "C°" + "\n"
+    answer += "Вологість – " + str(humi) + "%" + "\n"
+    answer += "Тиск – " + str(press) + "hPa" + "\n\n"
+    answer += "За даними зібраними за допомогою датчика BME280:" + "\n"
+    answer += "В місті Бориспіль зараз " + w.get_detailed_status() + "\n"
+    answer += "Температура – " + str(TemperatureList[0]) + "C°" + "\n"
+    answer += "Вологість – " + str(HumidityList[0]) + "%" + "\n"
+    answer += "Тиск – " + str(PressureList[0]) + "hPa" + "\n\n"
+    answer += "Різниця між показниками тиску за останні 3 години складає: " + str("%.2f" % difference) + "hPa"  + "\n"
+
+    if difference < 1.1 and difference > -1.1 :
+        answer += "Різких змін погодних умов не прогнозується."
+    elif difference >= 1.1 and difference <= 2.7 :
+        answer += "Погода погіршується, вірогідність опадів мінімальна."
+    elif difference > 2.7 and difference <= 6:
+        answer += "Попередження про сильний вітер."
+    elif difference > 6 :
+        answer += "Попередження про бурю."
+    elif difference <= -1.1 and difference >= -2.7 :
+        answer += "Погода погіршується, вітряно, є вірогідність опадів."
+    elif difference < -2.7 and difference >= -4 :
+        answer += "Вірогідно буде дощ та вітряно."
+    elif difference < -4 and difference >= -7 :
+        answer += "Вірогідно буде шторм, попередження про сильний вітер."
+    elif difference < -7 and difference >= -10 :
+        answer += "Вірогідно буде гроза. "
+    elif difference < -10 :
+        answer += "Шторм, буря."
+    else:
+        answer += "error"
+
+    bot.send_message(message.chat.id, answer)
+bot.polling(none_stop = True)
