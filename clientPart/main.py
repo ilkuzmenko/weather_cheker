@@ -39,6 +39,29 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name(
 httpAuth = credentials.authorize(httplib2.Http())
 service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
 
+######################################TIME##############################################
+# Чтання файлу google sheets стовпчик TIME
+valuesTime = service.spreadsheets().values().get(
+    spreadsheetId=spreadsheet_id,
+    range='A2:A',
+    majorDimension='ROWS'
+).execute()
+# Створив список "TimeList" і записав у неї значення з словника valuesTime за ключем 'values'
+TimeList = valuesTime.get('values')
+
+# Створив список в який запишу дані float (дані телеметрії: атмосферний тиск)
+timeFloatList = []
+
+# Записав дані типу float в новий список
+for item in TimeList:
+    timeFloatList.append(item[0])
+
+# # Роблю реверс щоб підняти актуальні данні до верху списку
+TimeList = list(reversed(timeFloatList))
+
+#for item in TimeList :
+#	print(item)
+
 ######################################TEMPERATURE###########################################
 # Чтання файлу google sheets стовпчик TEMPERATURE
 valuesTemperature = service.spreadsheets().values().get(
@@ -108,7 +131,8 @@ pressureFloatList = []
 for item in pressureList:
     pressureFloatList.append(float(item[0]))
 
-# # Роблю реверс щоб підняти актуальні данні до верху списку і рахую кількість елементів масиву щоб відфільтрувати неактуальні дані
+# Роблю реверс щоб підняти актуальні данні до верху списку
+# Рахую кількість елементів масиву щоб відфільтрувати неактуальні дані
 PressureList = list(reversed(pressureFloatList))
 lenList = len(PressureList)
 
@@ -118,6 +142,15 @@ for item in progressBar[7:10]:
     time.sleep(0.05) 
 bar.finish()
 os.system('clear')
+############################################################################################
+#import matplotlib.pyplot as plt
+
+
+#plt.bar(TimeList[:2],PressureList[:2], label = 'Temperature', color = 'Green')
+#plt.xlabel('Time')
+#plt.ylabel('°C')
+#plt.legend()
+#plt.show()
 
 ############################################################################################
 
